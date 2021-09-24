@@ -1,0 +1,106 @@
+<html>
+<head>
+<script src="mootools.js"></script>
+<script src="caldav.js"></script>
+<script src="config.js"></script>
+<link href="cal.css" media="all" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <script>
+    function today( d ) {
+       var d1 = new Date();
+       return d1.getYear() == d.getYear() && d1.getMonth() == d.getMonth() && d1.getDate() == d.getDate();
+    }
+
+    function renderDate( d ) {
+        var mon = lastMonday( d );
+        days = ['mon', 'tue', 'wen', 'thu', 'fri', 'sat', 'sun'];
+        for ( var i =0; i < days.length; i++) {
+        $(days[i]+"_label").set('text',  days[i]+' '+mon.getDate()+'.'+(1 + mon.getMonth()));
+        if ( today( mon )) { 
+            $(days[i]+"_label").set('style', 'border-color: black; background: #CCCCFF;' ); 
+        } else {
+            $(days[i]+"_label").set('style', '' ); 
+        }
+            mon.setTime( mon.getTime() + 24 * 60 * 60 * 1000  );
+        }
+    }
+
+    function show( d ) {
+            clearEvents();
+        for( i =0; i < calendar.length; i++) {
+            getReport( calendar[i].url, d, calendar[i].color, parseCaldavResults );
+        }
+
+            renderDate( d );
+    }
+
+    window.addEvent("domready", function() {
+        var now = new Date();
+        show( now );
+
+        $('prev').addEvent( "click" ,  function() {
+            now.setDate( now.getDate() - 7 );
+            show( now );
+        });
+        $('next').addEvent( "click" ,  function() {
+            now.setDate( now.getDate() + 7 );
+            show( now );
+        });
+
+    } );    
+        </script>
+    <pre id="result" style="position: absolute; top: 600px;">X</pre>
+
+<div id="calendar">
+    <div class="hour" id="h0">00:00</div>
+    <div class="hour" id="h1">01:00</div>
+    <div class="hour" id="h2">02:00</div>
+    <div class="hour" id="h3">03:00</div>
+    <div class="hour" id="h4">04:00</div>
+    <div class="hour" id="h5">05:00</div>
+    <div class="hour" id="h6">06:00</div>
+    <div class="hour" id="h7">07:00</div>
+    <div class="hour" id="h8">08:00</div>
+    <div class="hour" id="h9">09:00</div>
+    <div class="hour" id="h10">10:00</div>
+    <div class="hour" id="h11">11:00</div>
+    <div class="hour" id="h12">12:00</div>
+    <div class="hour" id="h13">13:00</div>
+    <div class="hour" id="h14">14:00</div>
+    <div class="hour" id="h15">15:00</div>
+    <div class="hour" id="h16">16:00</div>
+    <div class="hour" id="h17">17:00</div>
+    <div class="hour" id="h18">18:00</div>
+    <div class="hour" id="h19">19:00</div>
+    <div class="hour" id="h20">20:00</div>
+    <div class="hour" id="h21">21:00</div>
+    <div class="hour" id="h22">22:00</div>
+    <div class="hour" id="h23">23:00</div>
+
+    <div class="label" id="mon_label">Mon</div>
+    <div class="label" id="tue_label">Tue</div>
+    <div class="label" id="wen_label">Wen</div>
+    <div class="label" id="thu_label">Thu</div>
+    <div class="label" id="fri_label">Fri</div>
+    <div class="label" id="sat_label">Sat</div>
+    <div class="label" id="sun_label">Sun</div>
+
+    <div class="day" id="mon"></div>
+    <div class="day" id="tue"></div>
+    <div class="day" id="wen"></div>
+    <div class="day" id="thu"></div>
+    <div class="day" id="fri"></div>
+    <div class="day" id="sat"></div>
+    <div class="day" id="sun"></div>
+</div>
+
+
+<div class="button" id="prev">Prev</div>
+<div class="button" id="next" style="left: 670px;">Next</div>
+
+<div id="events"><div>
+
+</body>
+
+</html>
